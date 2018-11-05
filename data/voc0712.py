@@ -24,6 +24,13 @@ VOC_CLASSES = (  # always index 0
     'motorbike', 'person', 'pottedplant',
     'sheep', 'sofa', 'train', 'tvmonitor')
 
+VOC_CLASSES = (  # always index 0
+'ballon', 'uav', 'bird', 'boat',
+'bottle', 'bus', 'car', 'cat', 'chair',
+'cow', 'diningtable', 'dog', 'horse',
+'motorbike', 'person', 'pottedplant',
+'sheep', 'sofa', 'train', 'tvmonitor')
+
 # note: if you used our download scripts, this should be right
 VOC_ROOT = osp.join(HOME, "data/VOCdevkit/")
 
@@ -131,6 +138,11 @@ class VOCDetection(data.Dataset):
 
         if self.transform is not None:
             target = np.array(target)
+            # print('*** NOTE',target.shape)
+            if target.shape[0]==0:
+                target=np.zeros([1,5])
+                target[:,-1]=-1
+
             img, boxes, labels = self.transform(img, target[:, :4], target[:, 4])
             # to rgb
             img = img[:, :, (2, 1, 0)]
