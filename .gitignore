@@ -121,6 +121,7 @@ test_data_aug.py
 .idea/
 
 # temp checkout soln
+data/VOCdevkit
 data/datasets/
 data/ssd_dataloader.py
 

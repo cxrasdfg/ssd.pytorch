@@ -375,6 +375,7 @@ def test_net(save_folder, net, cuda, dataset, transform, top_k,
     output_dir = get_output_dir('ssd300_120000', set_type)
     det_file = os.path.join(output_dir, 'detections.pkl')
 
+    all_times=[]
     for i in range(num_images):
         im, gt, h, w = dataset.pull_item(i)
 
@@ -403,6 +404,7 @@ def test_net(save_folder, net, cuda, dataset, transform, top_k,
                                                                  copy=False)
             all_boxes[j][i] = cls_dets
 
+        all_times.append(detect_time)
         print('im_detect: {:d}/{:d} {:.3f}s'.format(i + 1,
                                                     num_images, detect_time))
 
@@ -411,7 +413,7 @@ def test_net(save_folder, net, cuda, dataset, transform, top_k,
 
     print('Evaluating detections')
     evaluate_detections(all_boxes, output_dir, dataset)
-
+    print('use in time: %.3f'%( sum(all_times)/len(all_times) ) )
 
 def evaluate_detections(box_list, output_dir, dataset):
     write_voc_results_file(box_list, dataset)
